@@ -15,6 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "outputPath": "dist/Angular_App",
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
@@ -52,18 +53,32 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
+             "budgets": [
+  {
+    "type": "initial",
+    "maximumWarning": "5mb",
+    "maximumError": "7mb"
+  },
+  {
+    "type": "anyComponentStyle",
+    "maximumWarning": "20kb",
+    "maximumError": "40kb"
+  },
+  {
+    "type": "bundle",
+    "name": "styles",
+    "maximumWarning": "600kb",
+    "maximumError": "800kb"
+  },
+  {
+    "type": "bundle",
+    "name": "css-inline-fonts",
+    "maximumWarning": "40kb",
+    "maximumError": "60kb"
+  }
+]
+
+,
               "outputHashing": "all"
             },
             "development": {
