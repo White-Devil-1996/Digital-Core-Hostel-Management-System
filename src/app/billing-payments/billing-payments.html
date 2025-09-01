@@ -1,0 +1,314 @@
+<div class="child-container">
+    <!-- Label Section -->
+    <div>
+        <app-label [text]="menuLabel"></app-label>
+    </div>
+
+
+
+
+
+    <div class="wrap">
+        <mat-divider class="sp"></mat-divider>
+<div class="search-box" style="    width: 31%;">
+  <mat-form-field appearance="fill" class="search-field">
+    <mat-label>Search by Invoice / Payment</mat-label>
+    <input matInput [(ngModel)]="searchTerm" placeholder="Enter invoice no, category, or date">
+    <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" class="search-btn" (click)="searchCustomer()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+</div>
+    
+        
+        <!-- 1) SUMMARY DASHBOARD -->
+        <div class="grid">
+            <mat-card class="kpi kpi-primary">
+                <div class="kpi-head">
+                    <mat-icon>request_page</mat-icon>
+                    Current Month’s Rent
+                </div>
+                <div class="kpi-body">
+                    <div class="row">
+                        <div>Rent Due</div>
+                        <div class="num">₹{{summary.rentDue | number}}</div>
+                    </div>
+                    <div class="row">
+                        <div>Paid So Far</div>
+                        <div class="num text-ok">₹{{summary.paidSoFar | number}}</div>
+                    </div>
+                    <div class="row">
+                        <div>Balance</div>
+                        <div class="num text-warn">₹{{balance() | number}}</div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="kpi kpi-accent">
+                <div class="kpi-head">
+                    <mat-icon>event</mat-icon>
+                    Next Due Date
+                </div>
+                <div class="kpi-body">
+                    <div class="big">{{ dueDate | date:'dd MMM yyyy' }}</div>
+                    <mat-chip-set>
+                        <mat-chip [ngClass]="isOverdue() ? 'chip-danger' : 'chip-ok'">
+                            <mat-icon>{{ isOverdue() ? 'warning' : 'alarm' }}</mat-icon>
+                            {{ isOverdue() ? 'Overdue' : 'On Schedule' }}
+                        </mat-chip>
+                    </mat-chip-set>
+                </div>
+            </mat-card>
+
+            <mat-card class="kpi kpi-secondary">
+                <div class="kpi-head">
+                    <mat-icon>account_balance</mat-icon>
+                    Advance / Security Deposit
+                </div>
+                <div class="kpi-body">
+                    <div class="row">
+                        <div>Total Deposit</div>
+                        <div class="num">₹{{deposit.total | number}}</div>
+                    </div>
+                    <div class="row">
+                        <div>Adjustments</div>
+                        <div class="num">₹{{deposit.adjusted | number}}</div>
+                    </div>
+                    <div class="row">
+                        <div>Refundable</div>
+                        <div class="num text-ok">₹{{depositRefundable() | number}}</div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="kpi kpi-neutral">
+                <div class="kpi-head">
+                    <mat-icon>receipt_long</mat-icon>
+                    Outstanding Balance
+                </div>
+                <div class="kpi-body">
+                    <div class="big text-warn">₹{{outstanding() | number}}</div>
+                    <div class="note">Cumulative pending across invoices</div>
+                </div>
+            </mat-card>
+        </div>
+
+        <mat-divider class="sp"></mat-divider>
+
+        <!-- 2) INVOICES & RECEIPTS -->
+        <mat-accordion multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>description</mat-icon>&nbsp; Invoices & Receipts
+                    </mat-panel-title>
+                    <mat-panel-description>Download/Print invoices and receipts</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="table">
+                    <div class="thead">
+                        <div>Invoice #</div>
+                        <div>Date</div>
+                        <div>Category</div>
+                        <div>Amount</div>
+                        <div>Status</div>
+                        <div>Actions</div>
+                    </div>
+
+                    <div class="trow" *ngFor="let inv of invoices()">
+                        <div>{{inv.number}}</div>
+                        <div>{{inv.date | date:'dd MMM yyyy'}}</div>
+                        <div>{{inv.category}}</div>
+                        <div>₹{{inv.amount | number}}</div>
+                        <div>
+                            <span class="badge" [ngClass]="{
+                      'badge-ok': inv.status==='Paid',
+                      'badge-warn': inv.status==='Partial',
+                      'badge-danger': inv.status==='Pending'
+                    }">
+                                {{inv.status}}
+                            </span>
+                        </div>
+                        <div class="act">
+                            <button mat-stroked-button (click)="downloadInvoice(inv)">
+                                <mat-icon>picture_as_pdf</mat-icon> Invoice
+                            </button>
+                            <button mat-stroked-button color="primary" [disabled]="inv.status!=='Paid'"
+                                (click)="downloadReceipt(inv)">
+                                <mat-icon>download</mat-icon> Receipt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 3) PAYMENT HISTORY -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>history</mat-icon>&nbsp; Payment History
+                    </mat-panel-title>
+                    <mat-panel-description>All past transactions</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="table">
+                    <div class="thead">
+                        <div>Date</div>
+                        <div>Mode</div>
+                        <div>Amount</div>
+                        <div>Invoice Ref</div>
+                        <div>Status</div>
+                    </div>
+
+                    <div class="trow" *ngFor="let t of payments()">
+                        <div>{{t.date | date:'dd MMM yyyy'}}</div>
+                        <div>{{t.mode}}</div>
+                        <div>₹{{t.amount | number}}</div>
+                        <div>{{t.invoiceRef}}</div>
+                        <div>
+                            <span class="badge" [ngClass]="t.success ? 'badge-ok':'badge-danger'">
+                                <mat-icon>{{ t.success ? 'check_circle' : 'cancel' }}</mat-icon>
+                                {{ t.success ? 'Success' : 'Failed' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 4) MAKE A PAYMENT -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>payments</mat-icon>&nbsp; Make a Payment
+                    </mat-panel-title>
+                    <mat-panel-description>UPI / Card / Netbanking</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <form [formGroup]="payForm" class="pay-grid" (ngSubmit)="makePayment()">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <input matInput formControlName="amount" type="number" min="1" [max]="maxPayable()" required>
+                        <mat-hint>Max ₹{{ maxPayable() | number }} (incl. any late fee)</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mode</mat-label>
+                        <mat-select formControlName="mode" required>
+                            <mat-option value="UPI">UPI</mat-option>
+                            <mat-option value="Card">Credit/Debit Card</mat-option>
+                            <mat-option value="Netbanking">Netbanking</mat-option>
+                            <mat-option value="Cash">Cash</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" *ngIf="payForm.value.mode==='UPI'">
+                        <mat-label>UPI ID (optional)</mat-label>
+                        <input matInput formControlName="upiId" placeholder="name@bank">
+                    </mat-form-field>
+
+                    <div class="qr" *ngIf="payForm.value.mode==='UPI'">
+                        <div class="qr-box">
+                            <!-- Placeholder visual (replace with your real QR) -->
+                            <mat-icon>qr_code_2</mat-icon>
+                            <div>Scan to Pay</div>
+                            <small>UPI Payee: menspg@upi</small>
+                        </div>
+                    </div>
+
+                    <div class="late-fee" *ngIf="lateFee() > 0">
+                        <mat-icon>warning_amber</mat-icon>
+                        Late Fee Applied: ₹{{ lateFee() | number }}
+                    </div>
+
+                    <div class="pay-actions">
+                        <button mat-raised-button color="primary" [disabled]="payForm.invalid">
+                            <mat-icon>bolt</mat-icon> Pay Now
+                        </button>
+                        <button mat-stroked-button type="button" (click)="exportStatement()">
+                            <mat-icon>file_download</mat-icon> Download Statement
+                        </button>
+                    </div>
+                </form>
+            </mat-expansion-panel>
+
+            <!-- 5) DEPOSIT -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>savings</mat-icon>&nbsp; Advance & Security Deposit
+                    </mat-panel-title>
+                    <mat-panel-description>Details & adjustments</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="card-row">
+                    <mat-card>
+                        <div class="item">
+                            <span>Total Deposit</span>
+                            <strong>₹{{deposit.total | number}}</strong>
+                        </div>
+                        <div class="item">
+                            <span>Adjustments</span>
+                            <strong>₹{{deposit.adjusted | number}}</strong>
+                        </div>
+                        <div class="item">
+                            <span>Refundable Balance</span>
+                            <strong class="text-ok">₹{{depositRefundable() | number}}</strong>
+                        </div>
+                    </mat-card>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 6) EXTRA CHARGES -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>add_card</mat-icon>&nbsp; Extra Charges / Add-ons
+                    </mat-panel-title>
+                    <mat-panel-description>Laundry, Food, WiFi, etc.</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="table">
+                    <div class="thead">
+                        <div>Item</div>
+                        <div>Type</div>
+                        <div>Qty/Unit</div>
+                        <div>Amount</div>
+                        <div>Notes</div>
+                    </div>
+                    <div class="trow" *ngFor="let c of extras()">
+                        <div>{{c.name}}</div>
+                        <div>{{c.type}}</div>
+                        <div>{{c.unit}}</div>
+                        <div>₹{{c.amount | number}}</div>
+                        <div>{{c.notes || '-'}}</div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- 7) ALERTS -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>notifications_active</mat-icon>&nbsp; Alerts & Notifications
+                    </mat-panel-title>
+                    <mat-panel-description>Due reminders & warnings</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="alerts">
+                    <div class="alert" *ngFor="let a of alerts()" [ngClass]="a.type">
+                        <mat-icon>{{ a.icon }}</mat-icon>
+                        <div class="msg">
+                            <div class="head">{{a.title}}</div>
+                            <div class="sub">{{a.message}}</div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

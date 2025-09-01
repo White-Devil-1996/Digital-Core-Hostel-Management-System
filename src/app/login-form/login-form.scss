@@ -1,0 +1,141 @@
+ * {
+   box-sizing: border-box;
+ }
+
+ body {
+   font-family: 'Poppins', sans-serif;
+   background: #dfe8f3;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   margin: 0;
+ }
+
+
+ .right button.primary {
+   background-color: var(--primarycolor);
+   border: none;
+   padding: 12px 30px;
+   border-radius: 8px;
+   color: white;
+   font-weight: bold;
+   cursor: pointer;
+   transition: 0.3s;
+ }
+
+ .right button.primary:hover {
+  //  background: var(--primarycolor);
+  background: color-mix(in srgb, var(--primarycolor) 80%, transparent);
+   
+ }
+
+ .left button:hover {
+   background: #CCC;
+      color: var(--primarycolor);
+
+ }
+
+ .form-container {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+ }
+
+ .form-group {
+   position: relative;
+ }
+
+ .form-group input {
+   width: 100%;
+   padding: 12px 40px 12px 15px;
+   border-radius: 8px;
+   border: 1px solid #ccc;
+   outline: none;
+   background: #f2f2f2;
+ }
+
+ .form-group i {
+   position: absolute;
+   right: 15px;
+   top: 50%;
+   transform: translateY(-50%);
+   color: #888;
+ }
+
+ .right h2 {
+   margin-bottom: 20px;
+ }
+
+ .right .forgot {
+   text-align: right;
+   margin-top: -15px;
+   font-size: 0.9em;
+   color: #555;
+   cursor: pointer;
+ }
+
+ .right .forgot:hover {
+   text-decoration: underline;
+ }
+
+ .social-login {
+   display: flex;
+   justify-content: center;
+   gap: 15px;
+   margin-top: 20px;
+ }
+
+ .social-login i {
+   font-size: 18px;
+ }
+
+ .social-login button {
+   width: 40px;
+   height: 40px;
+   border: 1px solid #ccc;
+   background: white;
+   border-radius: 8px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+ .toggle-hidden {
+   display: none;
+ }
+
+ .fade {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+
+
+.is-invalid {
+  border-color: red;
+}
+.text-danger {
+  font-size: 0.875rem;
+}
+.required::after {
+  content: ' *';
+  color: red;
+}
+
+
+label .required::after {
+  content: ' *';
+  color: red;
+}
+
+::ng-deep label.required::after {
+  content: ' *';
+  color: red;
+  margin-left: 3px;
+}

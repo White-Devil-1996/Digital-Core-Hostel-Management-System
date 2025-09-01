@@ -1,0 +1,27 @@
+
+
+.is-invalid {
+  border-color: red;
+}
+.text-danger {
+  font-size: 0.875rem;
+}
+.required::after {
+  content: ' *';
+  color: red;
+}
+
+
+label .required::after {
+  content: ' *';
+  color: red;
+}
+.customer{
+  padding: 20px!important;
+}
+
+::ng-deep label.required::after {
+  content: ' *';
+  color: red;
+  margin-left: 3px;
+}

@@ -1,0 +1,126 @@
+/* component.scss */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.grid-item {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.customer{
+  padding: 20px!important;
+}
+
+
+::ng-deep .modern-pagination .ngx-pagination {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  padding: 8px 16px;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+::ng-deep .modern-pagination .ngx-pagination li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.2s ease-in-out;
+}
+
+::ng-deep .modern-pagination .ngx-pagination li:hover {
+  background: var(--primarycolor);
+  color: #fff !important;
+  cursor: pointer;
+}
+
+::ng-deep .modern-pagination .ngx-pagination .current {
+  background: var(--primarycolor);
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+::ng-deep .modern-pagination .ngx-pagination .disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+::ng-deep .modern-pagination .ngx-pagination li i {
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+.table th{
+  background-color: var(--primarycolor);
+  color: var(--secondarycolor);
+}
+// .table tr, .table td, .table th {
+//  border: 1px solid var(--primarycolor);
+// }
+
+
+
+.table {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.table thead th {
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr:hover {
+  background-color: #f9f4e6 !important;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn {
+  border-radius: 50px !important;
+  padding: 4px 10px;
+}
+
+.card-header {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+::ng-deep .cdk-overlay-container {
+  z-index: 2000 !important;   /* higher than navbar/sidebar */
+}
+
+::ng-deep .full-screen-modal .mat-mdc-dialog-container {
+  z-index: 2001 !important;   /* ensure dialog itself is on top */
+}

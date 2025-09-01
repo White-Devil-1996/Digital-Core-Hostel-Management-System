@@ -1,0 +1,110 @@
+<div class="card mt-4 shadow-sm border-0 rounded-3">
+  <div class="card-header bg-light d-flex flex-wrap justify-content-between align-items-center">
+    <!-- Search -->
+    <input type="text" class="form-control w-auto me-2" [(ngModel)]="searchText" placeholder="🔍 Search..." />
+
+    <!-- Gender filter -->
+    <select class="form-select w-auto me-2" [(ngModel)]="genderFilter">
+      <option value="">All Genders</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <!-- Page size -->
+    <select class="form-select w-auto" [(ngModel)]="itemsPerPage">
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="25">25</option>
+      <option [ngValue]="50">50</option>
+    </select>
+  </div>
+
+  <div class="card-body p-0">
+    <table class="table table-hover table-striped align-middle mb-0">
+      <thead class="table-dark sticky-top">
+        <tr>
+          <th (click)="sortBy('full_name')" style="cursor: pointer;">Full Name
+            <i *ngIf="sortColumn==='full_name'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('gender')" style="cursor: pointer;">Gender
+            <i *ngIf="sortColumn==='gender'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('mobile_number')" style="cursor: pointer;">Mobile
+            <i *ngIf="sortColumn==='mobile_number'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('check_in_date')" style="cursor: pointer;">Check-in
+            <i *ngIf="sortColumn==='check_in_date'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('room_sharing_type')" style="cursor: pointer;">Sharing
+            <i *ngIf="sortColumn==='room_sharing_type'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('room_number')" style="cursor: pointer;">Room No.
+            <i *ngIf="sortColumn==='room_number'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th (click)="sortBy('balance')" style="cursor: pointer;">Balance
+            <i *ngIf="sortColumn==='balance'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let nav of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+          <td class="fw-semibold">{{ nav.full_name }}</td>
+          <td>{{ nav.gender }}</td>
+          <td>{{ nav.mobile_number }}</td>
+          <td>{{ nav.check_in_date }}</td>
+          <td>{{ nav.room_sharing_type }}</td>
+          <td>{{ nav.room_number }}</td>
+          <td class="fw-bold text-success">₹{{ nav.balance }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="generateInvoicePDF(nav)">
+              <i class="fa fa-download"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-info me-2" (click)="view(nav)">
+              <i class="fa fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-warning me-2" (click)="update(nav)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="Delete(nav.key)">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <!-- Pagination -->
+<!-- Pagination -->
+<!-- Pagination -->
+<div class="d-flex justify-content-center p-3">
+  <pagination-controls
+    (pageChange)="p = $event"
+    [responsive]="true"
+    class="modern-pagination">
+
+    <!-- Custom Previous Button -->
+    <ng-template #previous>
+      <span [innerHTML]="'<i class=&quot;fa fa-angle-left&quot;></i>'"></span>
+    </ng-template>
+
+    <!-- Custom Next Button -->
+    <ng-template #next>
+      <span [innerHTML]="'<i class=&quot;fa fa-angle-right&quot;></i>'"></span>
+    </ng-template>
+
+  </pagination-controls>
+</div>
+
+
+
+
+
+
+
+
+
+    
+  </div>
+</div>

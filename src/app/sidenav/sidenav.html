@@ -1,0 +1,163 @@
+@if (shouldRun()) {
+<div class="main-container">
+    <div class="d-flex">
+        <div #asideRef class="aside hidescrollbar"
+            style="background-color: var(--primarycolor);color: var(--secondarycolor);">
+            <div class="" style="height: 8vh;display: flex;">
+                <img src="assets/images/logo.png" style="max-height: 100%; max-width: 100%;">
+                <img class="aside-ref4 noneclass" #asideRef4 src="assets/images/logoname.jpg"
+                    style="max-height: 100%;width: 156px;">
+            </div>
+            <div class="hidescrollbar " style="height: 84vh;overflow: auto;">
+                @for (nav of fillerNav; track nav.path ; let i = $index) {
+                <div title="{{ nav.label}}" class="menu-item " id="i{{i}}" (click)="burgerClick(nav.path ,nav.label,i)">
+                    <div style="padding: 5px;"><i class="{{ nav.icon }}" style="font-size:24px"></i> </div>
+                    <div style="padding: 5px; white-space: nowrap;" #asideRef4 class="aside-ref4 noneclass"><b>{{
+                            nav.label}}</b></div>
+                </div>
+                }
+            </div>
+            <div [routerLink]="['']" title="Logout" class="menu-item">
+                <div style="padding: 5px;"><i class="fa fa-sign-out" style="font-size:24px"></i> </div>
+                <div style="padding: 5px; white-space: nowrap;" #asideRef4 class="aside-ref4 noneclass"><b>Logout</b>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <!-- <div class="header" style="background-color: var(--primarycolor);color: var(--secondarycolor);">
+                <div style="display: flex;justify-content: space-between; align-items: center; height: 100%;">
+                    <div (click)="burgerClick('','',-1)" class="col-md-0.5" style="cursor: pointer;">
+                        <div #asideRef1 class="bar1"></div>
+                        <div #asideRef2 class="bar2"></div>
+                        <div #asideRef3 class="bar3"></div>
+                    </div>
+                    <div class="col-md-10"><h3>Hostel Management System</h3></div>
+                    <div class="col-md-1"><i style="font-size:20px;color: #fff;cursor: pointer;" class="fa"
+                            [routerLink]="['/Landingscreen']">&#xf190;</i></div>
+                </div>
+            </div> -->
+
+
+
+            <div class="header" style="background: var(--primarycolor); color: #fff;height:8vh;z-index: 100;">
+                <div style="display: flex; justify-content: space-between; align-items: center; height: 100%;">
+
+                    <!-- Left Section -->
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <!-- <div (click)="burgerClick('','',-1)"
+                            style="cursor: pointer; display: flex; flex-direction: column; gap: 5px;">
+                            <div style="width: 25px; height: 3px; background: #fff;"></div>
+                            <div style="width: 25px; height: 3px; background: #fff;"></div>
+                            <div style="width: 25px; height: 3px; background: #fff;"></div>
+                        </div> -->
+
+                        <div (click)="burgerClick('','',-1)" class="col-md-0.5" style="cursor: pointer;">
+                            <div #asideRef1 class="bar1"></div>
+                            <div #asideRef2 class="bar2"></div>
+                            <div #asideRef3 class="bar3"></div>
+                        </div>
+                        <h3 style="margin: 0;">Hostel Management System</h3>
+                    </div>
+
+                    <!-- Right Section -->
+                    <div style="display: flex; align-items: center; gap: 25px;">
+
+                        <!-- Search -->
+                        <!-- <div style="position: relative;">
+                            <input type="text" placeholder="Search..."
+                                style="padding: 6px 35px 6px 12px; border-radius: 20px; border: none; outline: none; font-size: 14px;">
+                            <i class="fa fa-search"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: gray; font-size: 14px;"></i>
+                        </div> -->
+
+
+                        <!-- Search -->
+                        <div style="position: relative;">
+                            <input type="text" placeholder="Search..." [(ngModel)]="searchText"
+                                (keyup.enter)="onSearch()"
+                                style="padding: 6px 35px 6px 12px; border-radius: 20px; border: none; outline: none; font-size: 14px; width: 200px;">
+
+                            <i class="fa fa-search" (click)="onSearch()"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: gray; font-size: 14px; cursor:pointer;">
+                            </i>
+                        </div>
+
+
+                        <!-- Notifications -->
+
+
+
+                        <!-- Notifications -->
+                        <div class="notification-wrapper" style="position: relative;">
+                            <!-- Bell Icon -->
+                            <div (click)="toggleNotifications()" style="cursor: pointer; position: relative;">
+                                <i class="fa fa-bell" style="font-size: 20px;"></i>
+                                <span *ngIf="notifications.length > 0" style="position: absolute; top: -6px; right: -6px; background: red; color: white; 
+                 border-radius: 50%; font-size: 11px; padding: 2px 6px;">
+                                    {{ notifications.length }}
+                                </span>
+                            </div>
+
+                            <!-- Notifications Popup -->
+                            <div *ngIf="showNotifications" style="position: absolute; right: 0; top: 35px; background: #fff; color: #333; 
+              min-width: 280px; max-height: 300px; overflow-y: auto;
+              border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 999;">
+
+                                <div *ngIf="notifications.length === 0"
+                                    style="padding: 15px; text-align: center; font-size: 14px; color: gray;">
+                                    No new notifications
+                                </div>
+
+                                <div *ngFor="let note of notifications"
+                                    style="padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 14px; cursor: pointer;">
+                                    <b>{{ note.title }}</b>
+                                    <div style="font-size: 12px; color: gray;">{{ note.time }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div style="position: relative; cursor: pointer;">
+                            <i class="fa fa-bell" style="font-size: 20px;"></i>
+                            <span style="position: absolute; top: -6px; right: -6px; background: red; color: white; 
+                     border-radius: 50%; font-size: 11px; padding: 2px 6px;">3</span>
+                        </div> -->
+
+                        <!-- Profile Dropdown -->
+                        <div class="profile-wrapper" style="position: relative;">
+                            <div (click)="toggleDropdown()"
+                                style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <img src="https://via.placeholder.com/35" alt="profile"
+                                    style="width:35px; height:35px; border-radius:50%; border: 2px solid #fff;">
+                                <span>Admin</span>
+                                <i class="fa fa-caret-down"></i>
+                            </div>
+
+                            <!-- Dropdown Menu -->
+                            <div *ngIf="dropdownOpen" style="position: absolute; right: 0; top: 50px; background: #fff; color: #333; 
+                    min-width: 160px; border-radius: 8px; overflow: hidden; 
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 999;">
+                                <a routerLink="/profile"
+                                    style="display: block; padding: 10px 15px; text-decoration: none; color: inherit;">Profile</a>
+                                <a routerLink="/settings"
+                                    style="display: block; padding: 10px 15px; text-decoration: none; color: inherit;">Settings</a>
+                                <a routerLink="/logout"
+                                    style="display: block; padding: 10px 15px; text-decoration: none; color: inherit;">Logout</a>
+                            </div>
+                        </div>
+
+                        <!-- Logout -->
+                        <i class="fa fa-sign-out" style="font-size:20px; cursor:pointer;"
+                            [routerLink]="['/Landingscreen']"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bodyclass bg-white" >
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+} @else {
+<div>Error: Content not available</div>
+}

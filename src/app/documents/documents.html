@@ -1,0 +1,166 @@
+<div class="child-container">
+    <!-- Label Section -->
+    <div>
+        <app-label [text]="menuLabel"></app-label>
+    </div>
+
+
+<div class="docs-root">
+
+    <div class="header">
+      <div class="actions">
+        <mat-form-field appearance="fill" class="search">
+          <mat-label>Search documents</mat-label>
+          <input matInput [(ngModel)]="q" placeholder="name, category or notes" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="category-filter">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="filterCategory">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let c of categories" [value]="c">{{c}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" (click)="openUploader = !openUploader">
+          <mat-icon>{{ openUploader ? 'close' : 'upload_file' }}</mat-icon>
+          {{ openUploader ? 'Close Upload' : 'Upload Document' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="uploader" *ngIf="openUploader">
+      <div class="uploader-left">
+        <div class="dropzone"
+             (dragover)="onDragOver($event)"
+             (drop)="onDrop($event)"
+             (dragleave)="onDragLeave($event)"
+             [class.dragging]="dragging">
+          <mat-icon>cloud_upload</mat-icon>
+          <div class="msg">Drag & drop files here or</div>
+          <label class="pick-btn">
+            <input type="file" (change)="onFileSelected($event)" multiple />
+            <span>Select files</span>
+          </label>
+        </div>
+
+        <div class="small-note">Supported: PDF, JPG, PNG. Max 10MB per file.</div>
+      </div>
+
+      <form class="uploader-right" [formGroup]="uploadForm" (ngSubmit)="uploadFiles()">
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category" required>
+            <mat-option *ngFor="let c of categories" [value]="c">{{c}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Uploaded By</mat-label>
+          <input matInput formControlName="uploadedBy" placeholder="Name of uploader" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Expiry Date (optional)</mat-label>
+          <input matInput type="date" formControlName="expiryDate" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="notes">
+          <mat-label>Notes</mat-label>
+          <input matInput formControlName="notes" placeholder="Any notes" />
+        </mat-form-field>
+
+        <div class="selected-list" *ngIf="stagedFiles.length">
+          <div class="file-row" *ngFor="let f of stagedFiles; let i = index">
+            <div class="meta">
+              <strong>{{ f.name }}</strong>
+              <div class="muted">{{ (f.size/1024 | number:'1.0-0') }} KB • {{ f.type || 'unknown' }}</div>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeStaged(i)" matTooltip="Remove">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="uploader-actions">
+          <button mat-flat-button color="primary" [disabled]="!stagedFiles.length || uploadForm.invalid">Upload</button>
+          <button mat-stroked-button type="button" (click)="clearStaged()">Clear</button>
+          <button mat-stroked-button type="button" (click)="autoGenerateAgreement()" matTooltip="Auto-generate agreement PDF">Auto-generate Agreement</button>
+        </div>
+      </form>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="grid">
+      <mat-card class="list-card">
+        <mat-card-title>All Documents</mat-card-title>
+
+        <div class="doc-filters">
+          <mat-chip *ngFor="let c of categories" class="chip" (click)="filterCategory = c" [class.active]="filterCategory === c">{{ c }}</mat-chip>
+          <mat-chip class="chip clear" (click)="filterCategory = ''">Show All</mat-chip>
+        </div>
+
+        <div class="list">
+          <div *ngIf="filteredDocs.length === 0" class="empty">No documents found.</div>
+
+          <div class="doc-row" *ngFor="let d of filteredDocs">
+            <div class="left">
+              <div class="doc-name">
+                <mat-icon class="doc-icon">{{ iconFor(d.mime) }}</mat-icon>
+                <div>
+                  <div class="title">{{ d.name }}</div>
+                  <div class="meta muted">{{ d.category }} • {{ d.uploadedBy || '—' }} • {{ d.uploadedOn | date:'dd MMM yyyy' }}</div>
+                </div>
+              </div>
+
+              <div class="badges">
+                <mat-chip *ngIf="d.expiryDate" [class.expired]="isExpired(d)" class="expiry">
+                  <mat-icon>event</mat-icon>
+                  {{ isExpired(d) ? 'Expired' : daysUntil(d) + ' days' }}
+                </mat-chip>
+                <mat-chip color="primary" selected *ngIf="d.category==='Agreement'">Agreement</mat-chip>
+                <mat-chip color="accent" selected *ngIf="d.category==='Resident'">Resident</mat-chip>
+              </div>
+
+              <div class="notes" *ngIf="d.notes">{{ d.notes }}</div>
+            </div>
+
+            <div class="right">
+              <button mat-icon-button (click)="previewDoc(d)" matTooltip="Preview"><mat-icon>visibility</mat-icon></button>
+              <button mat-icon-button (click)="downloadDoc(d)" matTooltip="Download"><mat-icon>download</mat-icon></button>
+              <button mat-icon-button color="warn" (click)="confirmDelete(d)" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="preview-card" *ngIf="preview">
+        <mat-card-title>
+          Preview — {{ preview.name }}
+          <span class="muted"> • {{ preview.mime }}</span>
+        </mat-card-title>
+
+        <div class="preview-body">
+          <img *ngIf="isImage(preview.mime)" [src]="preview.url" alt="{{ preview.name }}" />
+          <iframe *ngIf="isPdf(preview.mime)" [src]="preview.url" frameborder="0"></iframe>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="preview-footer">
+          <div class="meta muted">Uploaded: {{ preview.uploadedOn | date:'dd MMM yyyy' }}</div>
+          <div class="actions">
+            <button mat-stroked-button (click)="downloadDoc(preview)"><mat-icon>download</mat-icon> Download</button>
+            <button mat-stroked-button color="warn" (click)="confirmDelete(preview)"><mat-icon>delete</mat-icon> Delete</button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+
+
+
+
+</div>

@@ -1,0 +1,58 @@
+<div class="child-container">
+  <!-- Label Section -->
+ <div>
+   <app-label  [text]="menuLabel"></app-label>
+ </div>
+
+
+  
+
+
+
+
+
+
+ <div >
+    <!-- Cards Section -->
+  <div>
+    <!-- Wait until customers is loaded -->
+    <div *ngIf="customers.length > 0">
+      <app-card [customersData]="customers"></app-card>
+    </div>
+
+    <!-- Optional: Show loader -->
+    <div *ngIf="customers.length === 0">
+      <p>Loading customers...</p>
+    </div>
+  </div>
+  <br />
+  <!-- pie chart -->
+  <div class="row" *ngIf="isBrowser">
+    <!-- Loop over pieCharts -->
+    <div *ngFor="let chart of pieCharts" class="col-md-3">
+      <div class="card shadow-lg p-3 rounded-lg">
+        <h4 class="text-center">🏨 {{ chart.label }}</h4>
+        <canvas baseChart [data]="chart.data" [options]="pieChartOptions" type="pie"
+          style="max-width: 250px; max-height: 250px; margin: auto;"> </canvas>
+      </div>
+    </div>
+  </div>
+  <br />
+  <!-- Line chart -->
+  <div class="row" *ngIf="isBrowser">
+    <div class="col-md-6">
+      <div class="card shadow-lg p-3 rounded-lg">
+        <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-lg p-3 rounded-lg">
+        <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <br />
+  </div>
+</div>

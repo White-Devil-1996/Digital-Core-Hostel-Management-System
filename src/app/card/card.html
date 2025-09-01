@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-md-3" *ngFor="let card of cards">
+      <div class="card text-white mb-3">
+        <div style="background-color: var(--primarycolor);color: var(--secondarycolor);" class="card-header card shadow-lg p-3 rounded-lg">{{
+          card.title }}</div>
+        <div class="card-body">
+          <h5 class="card-title" style="color: var(--primarycolor);">{{ card.value }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>

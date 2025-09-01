@@ -1,0 +1,12 @@
+<div class="child-container">
+  <!-- Label Section -->
+  <app-label [text]="menuLabel"></app-label>
+
+  <ng-container *ngIf="res && res.length > 0; else loading">
+    <app-tablegrid [data]="res"></app-tablegrid>
+  </ng-container>
+
+  <ng-template #loading>
+    <p>No records found.</p>
+  </ng-template>
+</div>

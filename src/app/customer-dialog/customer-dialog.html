@@ -1,0 +1,22 @@
+<!-- <mat-dialog-content>
+      <app-customer-onboarding 
+        [customerDatafromgrid]="data" 
+        [readonly]="data.readonly">
+      </app-customer-onboarding>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="close()">Close</button>
+    </mat-dialog-actions> -->
+<mat-dialog-content class="dialog-content">
+    <app-customer-onboarding [customerDatafromgrid]="data" [readonly]="data.readonly">
+    </app-customer-onboarding>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-footer">
+  <button class="close-btn" (click)="close()">
+    <span class="btn-icon">
+      <mat-icon>highlight_off</mat-icon>
+    </span>
+    <span class="btn-text">Close</span>
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,58 @@
+.dashboard-container {
+  padding: 20px;
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .col-md-3 {
+    flex: 1 1 22%;
+    min-width: 200px;
+  }
+}
+
+
+::ng-deep .custom-pagination .ngx-pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 8px;
+}
+
+::ng-deep .custom-pagination .ngx-pagination li {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  font-size: 14px;
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::ng-deep .custom-pagination .ngx-pagination li:hover {
+  background-color:var(--primarycolor);
+  color: #fff;
+}
+
+::ng-deep .custom-pagination .ngx-pagination .current {
+  background-color: var(--primarycolor);
+  color: white;
+  font-weight: bold;
+}
+
+::ng-deep .custom-pagination .ngx-pagination .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
