@@ -759,7 +759,7 @@ h1.example-app-name {
 //   transform: scale(1.1);
 // }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
 
 .aside-ref4{
   width: 100%!important;
@@ -797,8 +797,7 @@ h1.example-app-name {
 }
 }
 
-
-@media screen and (min-width: 426px) and (max-width: 768px) {
+@media screen and (min-width: 768px) and (max-width:1023px) {
   h3 {
     font-size: small;
   }
