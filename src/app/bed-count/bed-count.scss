@@ -1,0 +1,43 @@
+:root{
+--card-bg:#ffffff;
+--muted:#666;
+}
+.container{
+font-family: Arial, Helvetica, sans-serif;
+padding: 16px;
+max-width: 1100px;
+margin: 0 auto;
+}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.header h1{margin:0}
+.summary{font-size:14px;color:var(--muted)}
+.legend{margin-bottom:12px}
+.legend-item{margin-right:12px;display:inline-flex;align-items:center;font-size:13px}
+.pill{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px}
+.pill.occupied{background:#d9534f}
+.pill.unoccupied{background:#5cb85c}
+
+
+.floor-card{border:1px solid #e6e6e6;border-radius:6px;padding:12px;background:var(--card-bg)}
+// .floor-card:nth-child(odd){background:red}
+.floor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.floor-header h2{margin:0}
+.meta{font-size:13px;color:var(--muted)}
+
+
+.rooms-grid{display:flex;flex-wrap:wrap;gap:12px}
+.room-card{width:220px;border:1px solid #eee;border-radius:6px;padding:10px;background:#fafafa}
+.room-header{font-weight:600;margin-bottom:8px}
+.room-meta{font-weight:400;color:var(--muted);font-size:13px}
+.beds{display:flex;flex-direction:column;gap:8px}
+.bed{padding:8px;border-radius:6px;border:1px dashed #ddd;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.bed.occupied{background:rgba(217,83,79,0.08);border-color:#d9534f}
+.bed:not(.occupied){background:rgba(92,184,92,0.06);border-color:#5cb85c}
+.bed-label{font-weight:600}
+.bed-status{font-size:12px;color:var(--muted)}
+.room-footer{margin-top:8px;font-size:13px;color:var(--muted)}
+
+
+@media (max-width:600px){
+.room-card{width:100%}
+}

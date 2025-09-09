@@ -758,3 +758,88 @@ h1.example-app-name {
 //   color: #007bff;
 //   transform: scale(1.1);
 // }
+
+@media screen and (max-width: 425px) {
+
+.aside-ref4{
+  width: 100%!important;
+}
+  .popup{
+    right: -124px !important;
+    top: 44px!important;
+  }
+  header{
+    i{ font-size: 60%; 
+    span{ font-size: 60%; }
+    }
+  }
+  h3 {
+    font-size: 60%;
+  }
+  .Search {
+    display: none;
+  }
+
+  .aside {
+  width: 0%;
+  height: 100vh;
+  // padding: 1%;
+  // background-color: #fff;
+  overflow: auto;
+  transition: 0.4s;
+}
+
+.aside-after {
+          width: 100%;
+        z-index: 10000;
+        height: 100vh;
+        position: absolute;
+}
+}
+
+
+@media screen and (min-width: 426px) and (max-width: 768px) {
+  h3 {
+    font-size: small;
+  }
+ 
+  .aside {
+  width: 10%;
+  height: 100vh;
+  // padding: 1%;
+  // background-color: #fff;
+  overflow: auto;
+  transition: 0.4s;
+}
+
+.aside-after {
+  width: 45%;
+  height: 100vh;
+  // padding: 1%;
+  background-color: #fff;
+  transition: 0.4s;
+}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+  h3 {
+    font-size: small;
+  }
+ 
+  .aside {
+  width: 7%;
+  height: 100vh;
+  // padding: 1%;
+  // background-color: #fff;
+  overflow: auto;
+  transition: 0.4s;
+}
+
+.aside-after {
+  width: 45%;
+  height: 100vh;
+  // padding: 1%;
+  background-color: #fff;
+  transition: 0.4s;
+}
+}

@@ -72,7 +72,7 @@
 
 
                         <!-- Search -->
-                        <div style="position: relative;">
+                        <div class="Search" style="position: relative;">
                             <input type="text" placeholder="Search..." [(ngModel)]="searchText"
                                 (keyup.enter)="onSearch()"
                                 style="padding: 6px 35px 6px 12px; border-radius: 20px; border: none; outline: none; font-size: 14px; width: 200px;">
@@ -99,7 +99,7 @@
                             </div>
 
                             <!-- Notifications Popup -->
-                            <div *ngIf="showNotifications" style="position: absolute; right: 0; top: 35px; background: #fff; color: #333; 
+                            <div class="popup" *ngIf="showNotifications" style="position: absolute; right: 0; top: 35px; background: #fff; color: #333; 
               min-width: 280px; max-height: 300px; overflow-y: auto;
               border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 999;">
 
@@ -152,7 +152,7 @@
                 </div>
             </div>
 
-            <div class="bodyclass bg-white" >
+            <div class="bodyclass bg-white">
                 <router-outlet></router-outlet>
             </div>
         </div>

@@ -1,0 +1,45 @@
+
+<div class="child-container">
+    <!-- Label Section -->
+    <app-label [text]="menuLabel"></app-label>
+
+    <header class="header">
+        <h1>Building overview</h1>
+        <div class="summary">
+            <ng-container *ngIf="buildingTotals() as totals">
+                <div>Total beds: {{totals.beds}}</div>
+                <div>Occupied: {{totals.occupied}}</div>
+                <div>Unoccupied: {{totals.unoccupied}}</div>
+            </ng-container>
+        </div>
+    </header>
+    <section class="legend">
+        <span class="legend-item"><span class="pill occupied"></span> Occupied</span>
+        <span class="legend-item"><span class="pill unoccupied"></span> Unoccupied</span>
+    </section>
+    <main class="floors row">
+        <div *ngFor="let floor of floors; let i = index" class="floor-card col-12 col-md-6 col-lg-6">
+            <div class="floor-header">
+                <h2>Floor {{floor.id}}</h2>
+                <div class="meta">Rooms: {{floorRoomCount(floor)}} — Beds: {{floorTotalBeds(floor)}} — Occupied:
+                    {{floorOccupiedBeds(floor)}}</div>
+            </div>
+
+
+            <div class="rooms-grid">
+                <div *ngFor="let room of floor.rooms" class="room-card">
+                    <div class="room-header">Room {{room.id}} <span class="room-meta">({{roomBedCount(room)}}
+                            beds)</span></div>
+                    <div class="beds">
+                        <div *ngFor="let bed of room.beds" class="bed" [class.occupied]="bed.occupied"
+                            (click)="toggleBed(floor, room, bed)" title="Click to toggle occupancy">
+                            <div class="bed-label">Bed {{bed.id}}</div>
+                            <div class="bed-status">{{ bed.occupied ? 'Occupied' : 'Available' }}</div>
+                        </div>
+                    </div>
+                    <div class="room-footer">Occupied: {{roomOccupiedCount(room)}} / {{roomBedCount(room)}}</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

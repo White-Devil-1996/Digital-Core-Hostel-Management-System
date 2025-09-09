@@ -40,7 +40,7 @@
           <th (click)="sortBy('room_number')" style="cursor: pointer;">Room No.
             <i *ngIf="sortColumn==='room_number'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
           </th>
-          <th (click)="sortBy('balance')" style="cursor: pointer;">Balance
+          <th (click)="sortBy('balance')" style="cursor: pointer;"> Grand Total
             <i *ngIf="sortColumn==='balance'" class="fa" [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
           </th>
           <th class="text-center">Actions</th>
@@ -55,7 +55,8 @@
           <td>{{ nav.check_in_date }}</td>
           <td>{{ nav.room_sharing_type }}</td>
           <td>{{ nav.room_number }}</td>
-          <td class="fw-bold text-success">₹{{ nav.balance }}</td>
+          <!-- <td class="fw-bold text-success">₹{{ nav.rent_paid_so_for | number }} + {{ nav.advance_paid_so_for | number }}</td> -->
+           <td class="fw-bold text-success"> {{ ((+nav.rent_paid_so_for || 0) + (+nav.advance_paid_so_for || 0)) | currency:'INR':'symbol':'1.0-0' }} </td>
           <td class="text-center">
             <button class="btn btn-sm btn-outline-primary me-2" (click)="generateInvoicePDF(nav)">
               <i class="fa fa-download"></i>

@@ -110,10 +110,12 @@ export class Tablegrid {
                 { text: 'BILL TO (Permanent Address)', style: 'sectionHeader' },
                 { text: customer.full_name, bold: true },
                 { text: `Mobile: ${customer.mobile_number}` },
-                { text: `Alternate: ${customer.alternate_number}` },
+                // { text: `Alternate: ${customer.alternate_number}` },
                 { text: `Email: ${customer.email_id}` },
                 { text: `Permanent Address: ${customer.permanent_address}` },
-                { text: `City: ${customer.city}, ${customer.state} - ${customer.pincode}` },
+                { text: `City: ${customer.city}` },
+                { text: `State: ${customer.state}` },
+                { text: `Pincode: ${customer.pincode}` },
                 { text: `Guardian: ${customer.father_s___guardian_s_name} (${customer.relationship})` },
                 { text: `Emergency Contact: ${customer.emergency_contact_name}` }
               ]
@@ -126,8 +128,8 @@ export class Tablegrid {
                 { text: `Bed No: ${customer.bed_number}` },
                 { text: `Sharing Type: ${customer.room_sharing_type}` },
                 { text: `Check-in Date: ${customer.check_in_date}` },
-                { text: `Monthly Rent: ₹${customer.monthly_rent}` },
-                { text: `Security Deposit: ₹${customer.security_deposit}` }
+                { text: `Monthly Rent: ₹${customer.rent_paid_so_for}` },
+                { text: `Security Deposit: ₹${customer.advance_paid_so_for}` }
               ]
             }
           ]
@@ -142,9 +144,9 @@ export class Tablegrid {
             body: [
               [{ text: 'Gender', style: 'tableHeader' }, customer.gender],
               [{ text: 'Date of Birth', style: 'tableHeader' }, customer.date_of_birth],
-              [{ text: 'Occupation', style: 'tableHeader' }, customer.occupation],
-              [{ text: 'Work/Study Address', style: 'tableHeader' }, customer.work___study_address],
-              [{ text: 'Company/College Name', style: 'tableHeader' }, customer.company___college_name],
+              // [{ text: 'Occupation', style: 'tableHeader' }, customer.occupation],
+              // [{ text: 'Work/Study Address', style: 'tableHeader' }, customer.work___study_address],
+              // [{ text: 'Company/College Name', style: 'tableHeader' }, customer.company___college_name],
               [{ text: 'ID Type', style: 'tableHeader' }, customer.id_type],
               [{ text: 'ID Number', style: 'tableHeader' }, customer.id_number]
             ]
@@ -185,10 +187,10 @@ export class Tablegrid {
               [
                 `Monthly Rent - Room ${customer.room_number} (${customer.room_sharing_type})`,
                 '1',
-                customer.monthly_rent,
-                customer.monthly_rent
+                customer.rent_paid_so_for,
+                customer.rent_paid_so_for
               ],
-              ['Security Deposit', '1', customer.security_deposit, customer.security_deposit]
+              ['Security Deposit', '1', customer.advance_paid_so_for, customer.advance_paid_so_for]
             ]
           }
         },
@@ -217,31 +219,31 @@ export class Tablegrid {
                 body: [
                   [
                     'SUBTOTAL',
-                    `₹${parseFloat(customer.monthly_rent) + parseFloat(customer.security_deposit)}`
+                    `₹${parseFloat(customer.rent_paid_so_for) + parseFloat(customer.advance_paid_so_for)}`
                   ],
                   ['DISCOUNT', '₹0.00'],
-                  [
-                    'SUBTOTAL LESS DISCOUNT',
-                    `₹${parseFloat(customer.monthly_rent) + parseFloat(customer.security_deposit)}`
-                  ],
-                  ['CGST @ 5%', '₹0.00'],
-                  ['SGST @ 5%', '₹0.00'],
-                  ['Advance Paid', `₹${customer.advance_paid_so_for}`],
-                  ['Rent Paid So Far', `₹${customer.rent_paid_so_for}`],
-                  [
-                    { text: 'Balance Due', bold: true },
-                    {
-                      text: `₹${parseFloat(customer.monthly_rent) +
-                        parseFloat(customer.security_deposit) -
-                        (parseFloat(customer.advance_paid_so_for) || 0)
-                        }`,
-                      bold: true
-                    }
-                  ],
+                  // [
+                  //   'SUBTOTAL LESS DISCOUNT',
+                  //   `₹${parseFloat(customer.rent_paid_so_for) + parseFloat(customer.advance_paid_so_for)}`
+                  // ],
+                  // ['CGST @ 5%', '₹0.00'],
+                  // ['SGST @ 5%', '₹0.00'],
+                  // ['Advance Paid', `₹${customer.advance_paid_so_for}`],
+                  // ['Rent Paid So Far', `₹${customer.rent_paid_so_for}`],
+                  // [
+                  //   { text: 'Balance Due', bold: true },
+                  //   {
+                  //     text: `₹${parseFloat(customer.rent_paid_so_for) +
+                  //       parseFloat(customer.advance_paid_so_for) -
+                  //       (parseFloat(customer.advance_paid_so_for) || 0)
+                  //       }`,
+                  //     bold: true
+                  //   }
+                  // ],
                   [
                     { text: 'GRAND TOTAL', bold: true, fillColor: primaryColor },
                     {
-                      text: `₹${parseFloat(customer.monthly_rent) + parseFloat(customer.security_deposit)}`,
+                      text: `₹${parseFloat(customer.rent_paid_so_for) + parseFloat(customer.advance_paid_so_for)}`,
                       bold: true,
                       fillColor: primaryColor
                     }

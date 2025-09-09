@@ -9,6 +9,7 @@ import { LoginForm } from './login-form/login-form'; // example routed component
 import { BillingPaymentsComponent } from './billing-payments/billing-payments';
 import { Documents } from './documents/documents';
 import { Settings } from './settings/settings';
+import { BedCount } from './bed-count/bed-count';
 
 export const routes: Routes = [
     { path: '', component: LoginModule },
@@ -32,10 +33,12 @@ export const routes: Routes = [
         component: Sidenav,
         children: [
             { path: 'page/1', component: Dashboard },
-            { path: 'page/2', component: Customeronboard },
-            { path: 'page/3', component: CustomerOnboarding },
-            { path: 'page/4', component: BillingPaymentsComponent },
+            { path: 'page/2', component: CustomerOnboarding },
+            { path: 'page/3', component: Customeronboard },
+            { path: 'page/4', component: BedCount },
             { path: 'page/5', component: Documents },
+            { path: 'page/6', component: BillingPaymentsComponent },
+            { path: 'page/7', component: BillingPaymentsComponent },
             { path: 'page/8', component: Settings },
             { path: '', redirectTo: 'page/1', pathMatch: 'full' }, // default child
         ]

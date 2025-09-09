@@ -29,7 +29,7 @@
   <!-- pie chart -->
   <div class="row" *ngIf="isBrowser">
     <!-- Loop over pieCharts -->
-    <div *ngFor="let chart of pieCharts" class="col-md-3">
+    <div *ngFor="let chart of pieCharts" class="col-sm-12 col-md-6 col-lg-3 mb-4">
       <div class="card shadow-lg p-3 rounded-lg">
         <h4 class="text-center">🏨 {{ chart.label }}</h4>
         <canvas baseChart [data]="chart.data" [options]="pieChartOptions" type="pie"
@@ -40,13 +40,13 @@
   <br />
   <!-- Line chart -->
   <div class="row" *ngIf="isBrowser">
-    <div class="col-md-6">
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-4">
       <div class="card shadow-lg p-3 rounded-lg">
         <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
         </canvas>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-4">
       <div class="card shadow-lg p-3 rounded-lg">
         <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
         </canvas>

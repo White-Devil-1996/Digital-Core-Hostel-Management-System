@@ -124,3 +124,23 @@
 ::ng-deep .full-screen-modal .mat-mdc-dialog-container {
   z-index: 2001 !important;   /* ensure dialog itself is on top */
 }
+@media screen and (max-width: 425px) {
+ .card-body{
+  overflow: scroll!important;
+}
+
+
+}
+
+
+@media screen and (min-width: 426px) and (max-width: 768px) {
+
+  
+
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+ 
+  
+
+}
